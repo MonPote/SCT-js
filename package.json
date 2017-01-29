@@ -1,0 +1,22 @@
+{
+  "name": "sct-js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MonPote/SCT-js.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MonPote/SCT-js/issues"
+  },
+  "homepage": "https://github.com/MonPote/SCT-js#readme",
+  "dependencies": {
+    "aws-iot-device-sdk": "^1.0.14"
+  }
+}
