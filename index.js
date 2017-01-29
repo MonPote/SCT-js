@@ -1,4 +1,5 @@
 var awsIot = require('aws-iot-device-sdk');
+const readline = require('readline');
 
 //
 // Replace the values of '<YourUniqueClientIdentifier>' and '<YourAWSRegion>'
@@ -24,10 +25,23 @@ device
   .on('connect', function() {
     console.log('connect');
     device.subscribe('topic_2');
-    // device.publish('topic_2', JSON.stringify({ test_data: 1}));
+    device.publish('topic_2', JSON.stringify({ test_data: 1}));
     });
 
-device
-  .on('message', function(topic, payload) {
-    console.log('message', topic, payload.toString());
-  });
+// device
+//   .on('message', function(topic, payload) {
+//     console.log('message', topic, payload.toString());
+//   });
+//
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+rl.on('line', function(line) {
+    console.log("inside line");
+    console.log(line);
+    // device.publish('topic_2', JSON.stringify({ test_data: 1}));
+    device.publish('topic_1', line);
+})
