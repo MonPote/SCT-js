@@ -10,10 +10,10 @@ const readline = require('readline');
 // be terminated.
 //
 var device = awsIot.device({
-   keyPath: 'RB_ECG.private.key',
-  certPath: 'RB_ECG.cert.pem',
-    caPath: 'root-CA.crt',
-  clientId: 'a3muphd3v4g69d',
+   keyPath: 'credentials/RB_ECG.private.key',
+  certPath: 'credentials/RB_ECG.cert.pem',
+    caPath: 'credentials/root-CA.crt',
+  clientId: 'credentials/a3muphd3v4g69d',
     region: 'eu-west-1'
 });
 
@@ -28,11 +28,11 @@ device
     device.publish('topic_2', JSON.stringify({ test_data: 1}));
     });
 
-// device
-//   .on('message', function(topic, payload) {
-//     console.log('message', topic, payload.toString());
-//   });
-//
+device
+  .on('message', function(topic, payload) {
+    console.log('message', topic, payload.toString());
+  });
+
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -43,5 +43,5 @@ rl.on('line', function(line) {
     console.log("inside line");
     console.log(line);
     // device.publish('topic_2', JSON.stringify({ test_data: 1}));
-    device.publish('topic_1', line);
+    device.publish('topic_2', line);
 })
