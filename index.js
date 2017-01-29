@@ -17,6 +17,7 @@ var device = awsIot.device({
     region: 'eu-west-1'
 });
 
+
 //
 // Device is an instance returned by mqtt.Client(), see mqtt.js for full
 // documentation.
@@ -25,8 +26,8 @@ device
   .on('connect', function() {
     console.log('connect');
     device.subscribe('topic_2');
-    device.publish('topic_2', JSON.stringify({ test_data: 1}));
-    });
+    //device.publish('topic_2', JSON.stringify({ test_data: 1}));
+});
 
 device
   .on('message', function(topic, payload) {
@@ -34,14 +35,13 @@ device
   });
 
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
 
-rl.on('line', function(line) {
-    console.log("inside line");
-    console.log(line);
-    // device.publish('topic_2', JSON.stringify({ test_data: 1}));
-    device.publish('topic_2', line);
-})
+process.stdin.resume();
+process.stdin.on('data', function(buf) {
+  //  console.log('buf = ' + buf.toString());
+  //  content += buf.toString();
+  console.log('send to IoT :', buf.toString());
+  device.publish('topic_2', JSON.stringify({ valeur: buf.toString() }));
+ }
+);
+
