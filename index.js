@@ -25,23 +25,36 @@ var device = awsIot.device({
 device
   .on('connect', function() {
     console.log('connect');
-    device.subscribe('topic_2');
-    //device.publish('topic_2', JSON.stringify({ test_data: 1}));
-});
+    // device.subscribe('toto');
+    // device.publish('toto', JSON.stringify({ test_data: 1}));
+    });
 
 device
   .on('message', function(topic, payload) {
     console.log('message', topic, payload.toString());
   });
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-
-process.stdin.resume();
-process.stdin.on('data', function(buf) {
-  //  console.log('buf = ' + buf.toString());
-  //  content += buf.toString();
-  console.log('send to IoT :', buf.toString());
-  device.publish('topic_2', JSON.stringify({ valeur: buf.toString() }));
- }
-);
-
+var i = 0;
+var batch = [];
+// Should be call every 100 ms
+rl.on('line', function(line) {
+    if (i === 20) {
+      // send message
+      // reset
+      console.log("send batch : ", batch);
+      device.publish('bery_prod', JSON.stringify(batch));
+      i = 0;
+      batch = [];
+    } else {
+      batch.push({ecg_v: line});
+      ++i;
+    }
+    // console.log("inside line", line);
+    // device.publish('topic_2', JSON.stringify({ test_data: 1}));
+    // device.publish('toto', line);
+})
